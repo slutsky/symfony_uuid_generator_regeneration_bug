@@ -1,0 +1,17 @@
+services:
+  nginx:
+    build: ./docker/nginx
+    ports:
+      - ${NGINX_PORT:-80}:80
+    volumes:
+      - .:/var/www/html:rw
+
+  php:
+    build: ./docker/php
+    volumes:
+      - .:/var/www/html:rw
+    environment:
+      XDEBUG_MODE: develop,debug
+      XDEBUG_CONFIG: client_host=host.docker.internal
+    extra_hosts:
+      - host.docker.internal:host-gateway
